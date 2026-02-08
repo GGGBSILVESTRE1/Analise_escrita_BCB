@@ -1,0 +1,7 @@
+.venv
+__pycache__
+*.pyc
+.data
+__init__.py
+*.ps1
+
