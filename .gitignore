@@ -4,4 +4,4 @@ __pycache__
 .data
 __init__.py
 *.ps1
-
+*.parquet
