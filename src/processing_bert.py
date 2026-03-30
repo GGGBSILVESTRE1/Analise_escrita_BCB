@@ -14,9 +14,10 @@ def processar_atas_individual(texto):
         texto,
         return_tensors="pt",
         truncation=True,
-        max_length=512,
+        max_length=512,  # limite do modelo
         stride=128,  # carrega os últimos 128 para o proximo batch
         return_overflowing_tokens=True,
+        padding=True,
     )
 
     input_ids = inputs["input_ids"]
@@ -38,7 +39,7 @@ def processar_atas_individual(texto):
     media_final = torch.mean(torch.stack(scores_janela), dim=0).squeeze()
 
     return {
-        "positvo": media_final[0].item(),
+        "positivo": media_final[0].item(),
         "negativo": media_final[1].item(),
         "neutro": media_final[2].item(),
     }

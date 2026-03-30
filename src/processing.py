@@ -1,49 +1,34 @@
-import re
+import nltk
+from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+import string
 
 
-def limpar_texto_para_tokenizar(texto):
-
-    if not texto:
-        return ""
-
-    # converter para minúsculos
-    texto = str(texto).lower()
-    # retira pontuação mas mantém os caracteres de porcentagem, cifrão, vírgula e ponto
-    texto = re.sub(r"[^\w\s%$,.]", "", texto)
-
-    return texto
+nltk.download("punkt")  # modelo de tokenização pré treinado
+nltk.download("punkt_tab")
+nltk.download("stopwords")  # lista de palavras comuns que não agregam valor semântico
 
 
-def tokenizar_texto(texto):
+def tokenize_text(texto):
 
-    # transforma string em lista de palavras
-    if not texto:
-        return []
+    texto = texto.lower()
 
-    stops = set(stopwords.words("portuguese"))
+    tokens = word_tokenize(texto, language="portuguese")
 
-    stops.update(
-        [
-            "sessões",
-            "ata",
-            "copom",
-            "banco",
-            "notas",
-            "informações",
-            "andar",
-            "edifício",
-            "central",
-            "tabela",
-        ]
-    )
+    palavras_irrelevantes = set(stopwords.words("portuguese"))
+    pontuacao = set(string.punctuation)
 
-    palavras = texto.split()
+    palavras_extras = {"copom", "banco", "central", "Comitê", "bcb.gov.br", "reuniao"}
 
-    palavras_limpas = [p for p in palavras if p not in stops and len(p) > 2]
+    palavras_irrelevantes.update(palavras_extras)
 
-    return palavras_limpas
+    tokens_filtrados = [
+        t
+        for t in tokens
+        if t not in palavras_irrelevantes
+        and t not in pontuacao
+        and len(t) > 2
+        and t.isalpha()
+    ]
 
-
-def limpeza_para_nuvem(tokens):
-    return [t for t in tokens if t.isalpha()]
+    return tokens_filtrados

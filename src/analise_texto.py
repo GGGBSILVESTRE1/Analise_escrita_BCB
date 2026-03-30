@@ -1,13 +1,3 @@
-import google.generativeai as genai
-from dotenv import load_dotenv
-import pandas as pd
-from transformers import pipeline, auto_tokenizer, AutoModelForSequenceClassification
-
-classifier = pipeline("sentiment-analysis", model="lucas-leme/FinBERT-PT-BR")
-
-load_dotenv()
-
-
 # implementação básica para um comparativo com o modelo de classificação de sentimento tradicional
 def hawkish_dovish(token):
 
