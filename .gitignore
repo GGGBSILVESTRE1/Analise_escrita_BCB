@@ -6,3 +6,4 @@ __init__.py
 *.parquet
 .env
 venv
+.gitignore
